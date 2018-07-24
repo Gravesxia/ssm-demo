@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:mvc="http://www.springframework.org/schema/mvc"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.1.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
+
+     <!-- 启动注解驱动的Spring MVC功能，注册请求url和注解POJO类方法的映射-->
+     <mvc:annotation-driven ></mvc:annotation-driven>
+    <!-- 启动包扫描功能，以便注册带有@Controllers、@service、@repository、@Component等注解的类成为spring的bean -->
+     <context:component-scan base-package="com.mayi.ssm.controller" />
+
+    <!--<mvc:resources mapping="/**" location="/"/>-->
+    <!-- ===================================================== -->
+    <!-- ViewResolver For FreeMarker -->
+    <!-- ===================================================== -->
+    <bean id="freemarkerResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <property name="order" value="1" />
+        <property name="suffix" value=".html" />
+        <property name="contentType" value="text/html;charset=utf-8" />
+        <!--<property name="viewClass">
+            <value>org.springframework.web.servlet.view.freemarker.FreeMarkerView</value>
+        </property>-->
+        <property name="viewClass" value="org.springframework.web.servlet.view.freemarker.FreeMarkerView" />
+    </bean>
+    <!-- ===================================================== -->
+    <!-- ViewResolver For FreeMarkerConfigurer -->
+    <!-- ===================================================== -->
+    <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPath">
+            <value>/WEB-INF/views/</value>
+        </property>
+        <property name="freemarkerSettings"><!-- 设置FreeMarker环境属性 -->
+            <props>
+                <prop key="template_update_delay">5</prop><!--刷新模板的周期，单位为秒 -->
+                <prop key="default_encoding">UTF-8</prop><!--模板的编码格式 -->
+                <prop key="locale">UTF-8</prop><!-- 本地化设置 -->
+                <prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+                <prop key="time_format">HH:mm:ss</prop>
+                <prop key="number_format">0.####</prop>
+                <prop key="boolean_format">true,false</prop>
+                <prop key="whitespace_stripping">true</prop>
+                <prop key="tag_syntax">auto_detect</prop>
+                <prop key="url_escaping_charset">UTF-8</prop>
+            </props>
+        </property>
+    </bean>
+     <!-- 对模型视图名称的解析，在请求时模型视图名称添加前后缀 -->
+     <!--<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
+        <!--<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>-->
+        <!--<property name="prefix" value="/view/"/>    &lt;!&ndash; 前缀 &ndash;&gt;-->
+        <!--<property name="suffix" value=".jsp"/>    &lt;!&ndash; 后缀 &ndash;&gt;-->
+    <!--</bean>-->
+</beans>
